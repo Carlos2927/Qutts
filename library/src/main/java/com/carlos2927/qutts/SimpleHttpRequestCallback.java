@@ -5,6 +5,8 @@ import android.util.Log;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.List;
+import java.util.Map;
 
 
 public abstract class SimpleHttpRequestCallback<R> implements HttpRequestCallback<R> {
@@ -23,6 +25,11 @@ public abstract class SimpleHttpRequestCallback<R> implements HttpRequestCallbac
                 Log.i(Qutts.TAG,String.format("onDataUploading:%.2f(%s/%s)",uploadedCount*100/dataLen,uploadedCount,dataLen));
             }
         }
+    }
+
+    @Override
+    public void onReceivedResponseHeaders(HttpCallProxy call, Map<String, List<String>> headers) {
+
     }
 
     @Override

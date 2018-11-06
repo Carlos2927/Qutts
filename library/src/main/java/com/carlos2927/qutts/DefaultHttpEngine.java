@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.SynchronousQueue;
@@ -189,6 +190,8 @@ public class DefaultHttpEngine implements HttpEngine {
                 }
                 httpRequestCallback.onError(httpCallProxy,new RuntimeException(String.format("httpStateCode:%d, message:%s",stateCode,httpconnection.getResponseMessage())));
             }
+            Map<String, List<String>> responseHeaders = httpconnection.getHeaderFields();
+            httpRequestCallback.onReceivedResponseHeaders(httpCallProxy,responseHeaders);
             bis = new BufferedInputStream(httpconnection.getInputStream());
             httpCall.in = bis;
             if(stateCode == 200){
