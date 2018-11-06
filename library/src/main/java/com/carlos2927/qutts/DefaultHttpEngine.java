@@ -80,6 +80,9 @@ public class DefaultHttpEngine implements HttpEngine {
     private <R> void handleRequest(final HttpCallProxy httpCallProxy,BaseApi api,final @NonNull HttpRequestCallback<R> httpRequestCallback){
         MyHttpCall httpCall = new MyHttpCall();
         httpCallProxy.setCall(httpCall);
+        if(httpCallProxy.getApi() == null){
+            httpCallProxy.setApi(api);
+        }
         OutputStream out = null;
         BufferedInputStream bis;
         HttpURLConnection httpconnection = null;
@@ -135,6 +138,10 @@ public class DefaultHttpEngine implements HttpEngine {
                     "%s/%s (Linux; Android %s; %s Build/%s)", "Outts",
                     Qutts.Version, Build.VERSION.RELEASE, Build.MANUFACTURER,
                     Build.ID));
+            if(httpRequestCallback.onInterceptRequest(httpCallProxy)){
+                // 拦截网络请求
+                return;
+            }
             Map<String,String> headers = api.getHeaders();
             if(headers != null){
                 for(String key:headers.keySet()){

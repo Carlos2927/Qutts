@@ -33,6 +33,11 @@ public abstract class SimpleHttpRequestCallback<R> implements HttpRequestCallbac
     }
 
     @Override
+    public boolean onInterceptRequest(HttpCallProxy call) {
+        return false;
+    }
+
+    @Override
     public Type getResultType() {
         return resultType;
     }
