@@ -22,6 +22,7 @@ public interface BaseApi {
     BaseApi addQueryParams(String key, String value);
     String getQueryParams();
     BaseApi setHttpEntity(HttpEntity httpEntity);
+    BaseApi setJsonParams(String jsonParams);
     HttpEntity getHttpEntity();
     String getHttpEngineType();
     BaseApi setHttpEngineType(String httpEngineType);

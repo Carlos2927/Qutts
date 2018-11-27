@@ -22,7 +22,7 @@ public abstract class SimpleHttpRequestCallback<R> implements HttpRequestCallbac
     public void onDataUploading(long uploadedCount, long dataLen) {
         if(dataLen > uploadedCount && uploadedCount>=0){
             if(Qutts.IsDebug){
-                Log.i(Qutts.TAG,String.format("onDataUploading:%.2f(%s/%s)",uploadedCount*100/dataLen,uploadedCount,dataLen));
+                Log.i(Qutts.TAG,String.format("onDataUploading:%.2f%%(%s/%s)", uploadedCount * 100f / dataLen, uploadedCount, dataLen));
             }
         }
     }
@@ -46,7 +46,7 @@ public abstract class SimpleHttpRequestCallback<R> implements HttpRequestCallbac
     public void onDownloading(long downloadedCount, long dataLen) {
         if(dataLen > downloadedCount && downloadedCount>=0){
             if(Qutts.IsDebug){
-                Log.i(Qutts.TAG,String.format("onDownloading:%.2f(%s/%s)",downloadedCount*100/dataLen,downloadedCount,dataLen));
+                Log.i(Qutts.TAG,String.format("onDownloading:%.2f%%(%s/%s)",downloadedCount*100f/dataLen,downloadedCount,dataLen));
             }
         }
     }

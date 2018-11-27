@@ -39,7 +39,7 @@ public interface HttpEngine {
     <R> HttpCallProxy asyncRequest(BaseApi api, @NonNull HttpRequestCallback<R> httpRequestCallback);
 
     /**
-     * 发送网络请求
+     * 发送网络请求(同步异步都可以)
      * @param api
      * @param httpRequestCallback
      * @param <R>

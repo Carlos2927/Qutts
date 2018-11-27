@@ -191,6 +191,8 @@ public  abstract class SimpleApi implements BaseApi {
         return this;
     }
 
+
+
     @Override
     public BaseApi addQueryParams(String key, String value) {
         if(TextUtils.isEmpty(queryParams)){
@@ -218,6 +220,11 @@ public  abstract class SimpleApi implements BaseApi {
     public BaseApi setHttpEntity(HttpEntity httpEntity) {
         this.httpEntity = httpEntity;
         return this;
+    }
+
+    @Override
+    public BaseApi setJsonParams(String jsonParams) {
+        return setHttpEntity(HttpEntity.create(StringBody.createJsonStringBody(jsonParams)));
     }
 
     @Override
