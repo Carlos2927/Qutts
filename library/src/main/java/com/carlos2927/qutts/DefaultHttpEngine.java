@@ -219,12 +219,15 @@ public class DefaultHttpEngine implements HttpEngine {
                 if(Qutts.IsDebug){
                     Log.w(Qutts.TAG,"handleRequest() api: "+httpUrl+",jsonParams: "+jsonParams+", result: "+new String(rawData));
                 }
-                api.getNotifyScheduler().execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        httpRequestCallback.onSuccess(httpCallProxy,data);
-                    }
-                });
+                if(!httpCallProxy.isConvertError()){
+                    api.getNotifyScheduler().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            httpRequestCallback.onSuccess(httpCallProxy,data);
+                        }
+                    });
+                }
+
 
             }
         }catch (Exception e){

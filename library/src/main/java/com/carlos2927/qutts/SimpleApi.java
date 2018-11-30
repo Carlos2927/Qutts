@@ -224,7 +224,8 @@ public  abstract class SimpleApi implements BaseApi {
 
     @Override
     public BaseApi setJsonParams(String jsonParams) {
-        return setHttpEntity(HttpEntity.create(StringBody.createJsonStringBody(jsonParams)));
+        this.httpEntity = HttpEntity.create(StringBody.createJsonStringBody(jsonParams));
+        return this;
     }
 
     @Override
