@@ -12,7 +12,7 @@ public class HttpCallProxy {
     public BaseApi getApi(){
         return api;
     }
-    void setCall(HttpCall call){
+    protected void setCall(HttpCall call){
         this.call = call;
     }
 
