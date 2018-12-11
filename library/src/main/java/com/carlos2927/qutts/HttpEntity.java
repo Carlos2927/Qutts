@@ -27,6 +27,13 @@ public class HttpEntity {
     public int getFileBodyCount(){
          return fileHttpBodyList.size();
     }
+    
+    public HttpBody getNormalHttpBody(int index){
+         return index>=0 && index< normalHttpBodyList.size()?normalHttpBodyList.get(index):null;
+    }
+    public FileBody getFileBody(int index){
+         return index>=0 && index< fileHttpBodyList.size()?fileHttpBodyList.get(index):null;
+    }
 
     public long getLenght(){
        return lenght;
