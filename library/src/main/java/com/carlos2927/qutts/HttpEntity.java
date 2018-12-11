@@ -19,6 +19,14 @@ public class HttpEntity {
         }
         return httpEntity;
     }
+     
+    public int getHttpBodyCount(){
+         return normalHttpBodyList.size();
+    }
+     
+    public int getFileBodyCount(){
+         return fileHttpBodyList.size();
+    }
 
     public long getLenght(){
        return lenght;
