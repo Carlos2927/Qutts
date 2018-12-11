@@ -7,7 +7,7 @@ import android.util.Log;
 public class Qutts {
     public final static String TAG = "Qutts";
     public static boolean IsDebug = false;
-    public static final String Version = "v1.0.2-beta1";
+    public static final String Version = "v1.0.2-beta3";
 
     public static <R> HttpCallProxy asyncRequest(BaseApi api,@NonNull HttpRequestCallback<R> httpRequestCallback){
         if(!api.checkInvalid()){
