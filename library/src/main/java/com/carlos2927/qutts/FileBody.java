@@ -1,6 +1,7 @@
 package com.carlos2927.qutts;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.RandomAccessFile;
 
 /**
@@ -41,13 +42,42 @@ public class FileBody implements HttpBody<File> {
 
     @Override
     public int readBuffer(int offset, byte[] buffer) {
+        return readBuffer((long)offset,buffer);
+    }
+
+    @Override
+    public int readBuffer(long offset, byte[] buffer) {
         try {
             if(randomAccessFile == null){
                 randomAccessFile = new RandomAccessFile(file,"r");
             }
-            return randomAccessFile.read(buffer,offset,buffer.length);
+            randomAccessFile.seek(offset);
+            return randomAccessFile.read(buffer,0,buffer.length);
         } catch (Exception e) {
             throw new RuntimeException(e);
+        }
+
+    }
+
+    public long getFileReadByteInex(){
+        if(randomAccessFile != null){
+            try {
+                return randomAccessFile.getFilePointer();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return -1;
+    }
+
+    public void release(){
+        if(randomAccessFile != null){
+            try {
+                randomAccessFile.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            randomAccessFile = null;
         }
     }
 

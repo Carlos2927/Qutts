@@ -6,6 +6,7 @@ public interface HttpBody<T> {
     HttpBody setMediaType(String mediaType);
     long length();
     int readBuffer(int offset, byte[] buffer);
+    int readBuffer(long offset, byte[] buffer);
     byte[] readBytes();
 
     /**

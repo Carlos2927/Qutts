@@ -1,12 +1,18 @@
 package com.carlos2927.qutts;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 public class HttpEntity {
      List<HttpBody> normalHttpBodyList = new ArrayList<>();
      List<FileBody> fileHttpBodyList = new ArrayList<>();
-     private long lenght;
+     private long length;
 
     private HttpEntity(){}
 
@@ -35,8 +41,8 @@ public class HttpEntity {
          return index>=0 && index< fileHttpBodyList.size()?fileHttpBodyList.get(index):null;
     }
 
-    public long getLenght(){
-       return lenght;
+    public long getLength(){
+       return length;
     }
 
     public HttpEntity addHttpBody(HttpBody httpBody){
@@ -46,12 +52,37 @@ public class HttpEntity {
             }else {
                 normalHttpBodyList.add(httpBody);
             }
-            lenght += httpBody.length();
+            length += httpBody.length();
         }
         return this;
     }
 
+    public Map<String,String> getMultipartNoFileParams(){
+        if(isMultipart()){
+            HashMap<String,String> params = new HashMap<>();
+            for(HttpBody httpBody:normalHttpBodyList){
+                if(httpBody instanceof StringBody){
+                    StringBody stringBody = (StringBody) httpBody;
+                    if(stringBody.isAsFileUploadParams()){
+                        try {
+                            JSONObject jsonObject = new JSONObject(stringBody.getContent());
+                            Iterator<String> keys = jsonObject.keys();
+                            while (keys.hasNext()){
+                                String key = keys.next();
+                                params.put(key,jsonObject.get(key).toString());
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+            return params;
+        }
+        return null;
+    }
+
     public boolean isMultipart(){
-        return normalHttpBodyList.size() +  fileHttpBodyList.size()>1;
+        return normalHttpBodyList.size()>1 && fileHttpBodyList.size()>1;
     }
 }

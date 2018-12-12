@@ -50,6 +50,11 @@ public class BinaryBody implements HttpBody<byte[]> {
     }
 
     @Override
+    public int readBuffer(long offset, byte[] buffer) {
+        return readBuffer((int)offset,buffer);
+    }
+
+    @Override
     public byte[] readBytes() {
         return content;
     }

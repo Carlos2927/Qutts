@@ -151,7 +151,7 @@ public class DefaultHttpEngine implements HttpEngine {
             long dataLen = 0;
             HttpEntity httpEntity = api.getHttpEntity();
             if(httpEntity != null){
-                dataLen = httpEntity.getLenght();
+                dataLen = httpEntity.getLength();
                 httpconnection.addRequestProperty("Content-Length",
                         String.valueOf(dataLen));
                 if(!httpEntity.isMultipart() && httpEntity.fileHttpBodyList.size() == 0){

@@ -8,6 +8,7 @@ public class StringBody implements HttpBody<String> {
     private byte[] data;
     private String mediaType;
     private String name;
+    private boolean isUseFileUploadParams;
 
     public static StringBody createJsonStringBody(String content){
         return new StringBody(content,"application/json; charset=UTF-8");
@@ -19,6 +20,15 @@ public class StringBody implements HttpBody<String> {
         this.content = content;
         charset = Charset.forName(charsetName);
         setMediaType(mediaType);
+    }
+
+    public StringBody asFileUploadParams(){
+        isUseFileUploadParams = true;
+        return this;
+    }
+
+    public boolean isAsFileUploadParams() {
+        return isUseFileUploadParams;
     }
 
     @Override
@@ -68,6 +78,11 @@ public class StringBody implements HttpBody<String> {
             System.arraycopy(data,offset,buffer,0,remainder);
         }
         return remainder;
+    }
+
+    @Override
+    public int readBuffer(long offset, byte[] buffer) {
+        return readBuffer((int)offset,buffer);
     }
 
     @Override
