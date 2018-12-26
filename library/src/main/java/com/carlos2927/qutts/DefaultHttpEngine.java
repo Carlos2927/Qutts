@@ -196,6 +196,7 @@ public class DefaultHttpEngine implements HttpEngine {
                                     + httpconnection.getResponseMessage());
                 }
                 httpRequestCallback.onError(httpCallProxy,new RuntimeException(String.format("httpStateCode:%d, message:%s",stateCode,httpconnection.getResponseMessage())));
+                return;
             }
             Map<String, List<String>> responseHeaders = httpconnection.getHeaderFields();
             httpRequestCallback.onReceivedResponseHeaders(httpCallProxy,responseHeaders);
