@@ -239,7 +239,7 @@ public class DefaultHttpEngine implements HttpEngine {
         }
     }
 
-    private static class MyHttpCall implements HttpCall{
+    public static class MyHttpCall implements HttpCall{
         private HttpURLConnection mHttpURLConnection;
         private BufferedInputStream in;
         private OutputStream out;
@@ -248,6 +248,10 @@ public class DefaultHttpEngine implements HttpEngine {
         @Override
         public boolean isCanceled() {
             return isCancel;
+        }
+        
+         public HttpURLConnection getHttpURLConnection(){
+            return mHttpURLConnection;
         }
 
         @Override
