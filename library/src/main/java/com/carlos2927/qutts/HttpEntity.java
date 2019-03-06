@@ -83,6 +83,6 @@ public class HttpEntity {
     }
 
     public boolean isMultipart(){
-        return normalHttpBodyList.size()>1 && fileHttpBodyList.size()>1;
+        return fileHttpBodyList.size() >= 1;
     }
 }
