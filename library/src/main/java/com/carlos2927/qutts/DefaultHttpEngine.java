@@ -94,7 +94,7 @@ public class DefaultHttpEngine implements HttpEngine {
                 }
             });
             String baseUrl = api.getBaseUrl();
-            Map<String,String> pathParams = getPathParams();
+            Map<String,String> pathParams = api.getPathParams();
             if(pathParams != null && baseUrl.contains("{") && baseUrl.contains("}")){
                 for(String key :pathParams.keySet()){
                     baseUrl = baseUrl.replace(String.format("{%s}",key),pathParams.get(key));
