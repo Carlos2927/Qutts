@@ -28,4 +28,6 @@ public interface BaseApi {
     BaseApi setHttpEngineType(String httpEngineType);
     BaseApi setCustomHttpEngine(HttpEngine httpEngine);
     HttpEngine getHttpEngine();
+    BaseApi addPathParams(String key,String value);
+    Map<String,String> getPathParams();
 }
