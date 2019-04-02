@@ -59,6 +59,7 @@ public  abstract class SimpleApi implements BaseApi {
 
 
     protected Map<String, String> headers;
+    protected Map<String, String> pathParams;
     protected StringBuilder queryParams;
     protected HttpEntity httpEntity;
 
@@ -183,6 +184,20 @@ public  abstract class SimpleApi implements BaseApi {
         }
         headers.put(key,value);
         return this;
+    }
+        
+    @Override
+    public BaseApi addPathParams(String key, String value) {
+        if(pathParams == null){
+            pathParams = new HashMap<>();
+        }
+        pathParams.put(key,value);
+        return this;
+    }
+    
+    @Override
+    public Map<String, String> getPathParams() {
+        return pathParams;
     }
 
     @Override
