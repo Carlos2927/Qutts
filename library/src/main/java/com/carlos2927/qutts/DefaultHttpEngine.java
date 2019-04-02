@@ -93,7 +93,14 @@ public class DefaultHttpEngine implements HttpEngine {
                     httpRequestCallback.onStart();
                 }
             });
-            StringBuilder httpUrl = new StringBuilder(api.getBaseUrl());
+            String baseUrl = api.getBaseUrl();
+            Map<String,String> pathParams = getPathParams();
+            if(pathParams != null && baseUrl.contains("{") && baseUrl.contains("}")){
+                for(String key :pathParams.keySet()){
+                    baseUrl = baseUrl.replace(String.format("{%s}",key),pathParams.get(key));
+                }
+            }
+            StringBuilder httpUrl = new StringBuilder(baseUrl);
             if(!TextUtils.isEmpty(api.getApi())){
                 if(api.getBaseUrl().endsWith("/")){
                     httpUrl.append(api.getApi());
