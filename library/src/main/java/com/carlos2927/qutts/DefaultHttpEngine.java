@@ -77,6 +77,14 @@ public class DefaultHttpEngine implements HttpEngine {
         return httpCallProxy;
     }
 
+    private void addHeaderSafe(HttpURLConnection httpconnection,String key,String value){
+         String oldValue = httpconnection.getRequestProperty(key);
+         if (oldValue == null || TextUtils.isEmpty(oldValue.trim())) {
+               httpconnection.setRequestProperty(key,value);
+          }	
+    }
+	
+
     private <R> void handleRequest(final HttpCallProxy httpCallProxy,BaseApi api,final @NonNull HttpRequestCallback<R> httpRequestCallback){
         MyHttpCall httpCall = new MyHttpCall();
         httpCallProxy.setCall(httpCall);
@@ -138,10 +146,11 @@ public class DefaultHttpEngine implements HttpEngine {
             }
             httpconnection.setReadTimeout(5000);
             httpconnection.setConnectTimeout(5000);
-            httpconnection.setRequestProperty("Connection", "keep-alive");
-            httpconnection.setRequestProperty("Accept-Charset", "UTF-8");
-            httpconnection.setRequestProperty("Accept", "application/json");
-            httpconnection.addRequestProperty("User-Agent", String.format(
+            
+            addHeaderSafe(httpconnection,"Connection", "keep-alive");
+            addHeaderSafe(httpconnection,"Accept-Charset", "UTF-8");
+            addHeaderSafe(httpconnection,"Accept", "application/json");
+            addHeaderSafe(httpconnection,"User-Agent", String.format(
                     "%s/%s (Linux; Android %s; %s Build/%s)", "Outts",
                     Qutts.Version, Build.VERSION.RELEASE, Build.MANUFACTURER,
                     Build.ID));
@@ -152,7 +161,7 @@ public class DefaultHttpEngine implements HttpEngine {
             Map<String,String> headers = api.getHeaders();
             if(headers != null){
                 for(String key:headers.keySet()){
-                    httpconnection.setRequestProperty(key, headers.get(key));
+	    addHeaderSafe(httpconnection,key, headers.get(key));
                 }
             }
             long dataLen = 0;
@@ -162,7 +171,8 @@ public class DefaultHttpEngine implements HttpEngine {
                 httpconnection.addRequestProperty("Content-Length",
                         String.valueOf(dataLen));
                 if(!httpEntity.isMultipart() && httpEntity.fileHttpBodyList.size() == 0){
-                    httpconnection.addRequestProperty("Content-Type", httpEntity.normalHttpBodyList.get(0).getMediaType());
+                    // HttpURLConnection 添加两个Content-Type会同时存在 不会覆盖为什么？这个在某些情况下可能会导致接口调用报415错误?		
+                    addHeaderSafe(httpconnection,"Content-Type", httpEntity.getNormalHttpBody(0).getMediaType());
                 }
             }else {
                 httpconnection.addRequestProperty("Content-Length",
