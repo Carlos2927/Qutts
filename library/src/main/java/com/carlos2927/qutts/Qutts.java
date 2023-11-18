@@ -54,7 +54,7 @@ public class Qutts {
                 httpCallProxy.setApi(api);
             }
         }else{
-            httpRequestCallback.onError(httpCallProxy,new RuntimeException("Can not invoke sendRequest() because no scheduler!"))
+            httpRequestCallback.onError(httpCallProxy,new RuntimeException("Can not invoke sendRequest() because no scheduler!"));
         }
         return httpCallProxy;
     }
