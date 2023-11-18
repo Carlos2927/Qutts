@@ -7,7 +7,7 @@ import android.util.Log;
 public class Qutts {
     public final static String TAG = "Qutts";
     public static boolean IsDebug = false;
-    public static final String Version = "v1.0.2";
+    public static final String Version = "v1.0.3";
 
     public static <R> HttpCallProxy asyncRequest(BaseApi api,@NonNull HttpRequestCallback<R> httpRequestCallback){
         if(!api.checkInvalid()){
@@ -17,7 +17,11 @@ public class Qutts {
         }
         api.workOn(QuttsSchedulers.CurrentThread);
         api.notifyOn(QuttsSchedulers.AndroidMainThread);
-        return api.getHttpEngine().asyncRequest(api,httpRequestCallback).setApi(api);
+        HttpCallProxy httpCallProxy = api.getHttpEngine().asyncRequest(api,httpRequestCallback);
+        if(httpCallProxy.getApi() == null){
+            httpCallProxy.setApi(api);
+        }
+        return httpCallProxy;
     }
 
     public static <R> R request(BaseApi api,@Nullable HttpRequestCallback<R> httpRequestCallback){
@@ -45,7 +49,12 @@ public class Qutts {
             return httpCallProxy;
         }
         if(api.getWorkScheduler() != null && api.getNotifyScheduler() != null){
-            api.getHttpEngine().sendRequest(api,httpRequestCallback);
+            httpCallProxy = api.getHttpEngine().sendRequest(api,httpRequestCallback);
+            if(httpCallProxy.getApi() == null){
+                httpCallProxy.setApi(api);
+            }
+        }else{
+            httpRequestCallback.onError(httpCallProxy,new RuntimeException("Can not invoke sendRequest() because no scheduler!"))
         }
         return httpCallProxy;
     }
